@@ -1,0 +1,10 @@
+eas build --profile preview --platform android
+
+eas update --branch preview
+
+eas secret:create
+    eas secret:create --scope project --name SECRET_NAME --value secretvalue --type string
+
+eas secret:push .env
+
+eas secret:list
