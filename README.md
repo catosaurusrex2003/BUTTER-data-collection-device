@@ -7,3 +7,6 @@
 3. Typescript ( 🤓 )
 4. NativeWind ( with `tailwind version : 3.3.2` which is compatible with NativeWind )</li>
 # BUTTER-data-collection-device
+
+
+![alt text](image.png)
