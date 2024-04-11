@@ -6,6 +6,7 @@ import {
   wayPointPolylineType,
 } from "../types/mapTypes";
 import { getRandomColor } from "../utils/getRandomColor";
+import { Text, View } from "react-native";
 
 type Props = {
   userOrigin: UserOriginType | null;
@@ -107,24 +108,53 @@ function CustomMap({
       )}
       {wayPointPolylineState?.map((element, index) => {
         const rc = getRandomColor();
-        // 45, 85, 255
+
+        const midpointIndex = Math.floor(element.coordinatesArray.length / 2);
+        const midpoint = element.coordinatesArray[midpointIndex];
+
         if (index == wayPointPolylineState.length - 1) {
           return (
-            <Polyline
-              strokeColor={"rgba(0,0,0,1)"}
-              coordinates={element}
-              lineJoin="round"
-              strokeWidth={6}
-            />
+            <>
+              <Polyline
+                strokeColor={"rgba(0,0,0,1)"}
+                coordinates={element.coordinatesArray}
+                lineJoin="round"
+                strokeWidth={6}
+              />
+              <Marker coordinate={midpoint}>
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    padding: 5,
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>{element.countPotholes} potholes</Text>
+                </View>
+              </Marker>
+            </>
           );
         }
         return (
-          <Polyline
-            strokeColor={rc}
-            coordinates={element}
-            lineJoin="round"
-            strokeWidth={6}
-          />
+          <>
+            <Polyline
+              strokeColor={rc}
+              coordinates={element.coordinatesArray}
+              lineJoin="round"
+              strokeWidth={6}
+            />
+            <Marker coordinate={midpoint}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  padding: 5,
+                  borderRadius: 5,
+                }}
+              >
+                <Text>2 potholes</Text>
+              </View>
+            </Marker>
+          </>
         );
       })}
     </MapView>

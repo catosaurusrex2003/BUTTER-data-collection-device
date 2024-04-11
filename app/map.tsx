@@ -31,6 +31,7 @@ import {
   setUserOrigin,
 } from "../slices/userSlice";
 import { AppDispatch } from "../store";
+import { getTheULTIMATEroute } from "../routingAlgorithm/main";
 
 const mapNavOptions = [
   { src: ramenIcon, text: "Restaurant" },
@@ -113,32 +114,13 @@ function PotholeMap() {
     }
   }
 
-  const handleRouteDirections = (origin: string, destination: string) => {
+  const handleRouteDirections = async (origin: string, destination: string) => {
     console.log(origin, "  ", destination);
-    // origin and destination can either be "Andheri station, Mumbai" or "12.2116445,12,2116445"
-    getRoute(origin, destination).then((routeInfo) => {
-      // console.log("Main Route Polyline:", routeInfo?.polyline);
-      // console.log("Waypoints:", routeInfo?.waypoints);
-      // console.log("Alternate Routes 1:", routeInfo?.alternateRoutes[0]);
-      // console.log("Alternate Routes 2:", routeInfo?.alternateRoutes[1]);
-      console.log(routeInfo?.alternateRoutes.length + 1, "ROUTES FOUND");
-      setWayPointPolylineState([]);
-      if (routeInfo?.alternateRoutes)
-        routeInfo?.alternateRoutes.forEach(
-          (element: { polyline: string; waypoints: coordinateType[] }) => {
-            const altRoute: wayPointPolylineType = decodePolyline(
-              element.polyline
-            );
-            setWayPointPolylineState((prev) => [...prev, altRoute]);
-          }
-        );
-      if (routeInfo?.polyline) {
-        const mainPoints = decodePolyline(routeInfo?.polyline);
-        console.log("MainRoute IS : ================ : ", routeInfo?.polyline);
-        console.log("MainWaypoint IS : ================ : ", mainPoints);
-        setWayPointPolylineState((prev) => [...prev, mainPoints]);
-      }
+    const ultimateRouteData = await getTheULTIMATEroute({
+      origin,
+      destination,
     });
+    setWayPointPolylineState(ultimateRouteData);
   };
 
   useEffect(() => {
