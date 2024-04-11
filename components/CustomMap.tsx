@@ -92,6 +92,7 @@ function CustomMap({
             longitude: userOrigin.location?.lng,
           }}
           identifier={`origin`}
+          pinColor="blue"
         />
       )}
       {userDestination?.location?.lat && (
@@ -104,9 +105,11 @@ function CustomMap({
           }}
           description={userDestination.description}
           identifier={`destination`}
+          pinColor="blue"
         />
       )}
       {wayPointPolylineState?.map((element, index) => {
+        console.log("meow");
         const rc = getRandomColor();
 
         const midpointIndex = Math.floor(element.coordinatesArray.length / 2);
@@ -151,7 +154,7 @@ function CustomMap({
                   borderRadius: 5,
                 }}
               >
-                <Text>2 potholes</Text>
+                <Text>{element.countPotholes} potholes</Text>
               </View>
             </Marker>
           </>
